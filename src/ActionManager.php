@@ -82,7 +82,7 @@ class ActionManager
             $methods = array_merge($methods, $requestMethod->methods);
         }
 
-        $methods = array_values(array_unique($methods));
+        $methods = array_values(array_unique($methods, SORT_REGULAR));
 
         $reflectionClass = ReflectionManager::reflectClass($className);
 
@@ -96,7 +96,7 @@ class ActionManager
 
         $dirName = dirname($reflectionClass->getFileName());
 
-        while ($dirName !== BASE_PATH) {
+        while ($dirName !== constant('BASE_PATH')) {
             if ($dirAttributes = static::getAttributes($dirName)) {
                 $inheritedAttributes[] = $dirAttributes;
             }
@@ -165,7 +165,6 @@ class ActionManager
     /**
      * 获取服务器集合
      *
-     * @param string $className 类名
      * @param object[] $attributes 注解
      * @param array<int,object[]> $inheritedAttributes 继承的注解
      *
@@ -231,7 +230,6 @@ class ActionManager
     /**
      * 获取中间件集合
      *
-     * @param string $className 类名
      * @param object[] $attributes 注解
      * @param array<int,object[]> $inheritedAttributes 继承的注解
      *
@@ -321,7 +319,7 @@ class ActionManager
     {
         if (static::$cachedComposerPSR4 === null) {
             static::$cachedComposerPSR4 = [];
-            $composerJsonPath = BASE_PATH . '/composer.json';
+            $composerJsonPath = constant('BASE_PATH') . '/composer.json';
 
             if (file_exists($composerJsonPath)) {
                 $composerJson = json_decode(file_get_contents($composerJsonPath), true);
@@ -358,7 +356,7 @@ class ActionManager
             if ($path[0] === '/') {
                 $splFileInfo = new SplFileInfo($path . '/' . str_replace('\\', '/', $remainNamespaceName));
             } else {
-                $splFileInfo = new SplFileInfo(BASE_PATH . '/' . $path . '/' . str_replace('\\', '/', $remainNamespaceName));
+                $splFileInfo = new SplFileInfo(constant('BASE_PATH') . '/' . $path . '/' . str_replace('\\', '/', $remainNamespaceName));
             }
 
             return $splFileInfo->getPathname();
@@ -391,7 +389,7 @@ class ActionManager
 
         $dirPaths = [];
 
-        while ($dirName !== BASE_PATH) {
+        while ($dirName !== constant('BASE_PATH')) {
 
             $dirPaths[] = static::dirPaths($dirName);
 
