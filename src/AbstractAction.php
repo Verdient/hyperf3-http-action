@@ -36,7 +36,7 @@ abstract class AbstractAction implements ActionInterface
      *
      * @author Verdient。
      */
-    private function changeKeyToSnakeCase(array $array): array
+    protected function changeKeyToSnakeCase(array $array): array
     {
         $result = [];
 
