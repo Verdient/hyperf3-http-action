@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Verdient\Hyperf3\HttpAction;
 
 use BackedEnum;
-use GuzzleHttp\Psr7\UploadedFile;
 use Hyperf\Contract\Arrayable;
 use Hyperf\Di\ReflectionManager;
+use Hyperf\HttpMessage\Upload\UploadedFile;
 use ReflectionIntersectionType;
 use ReflectionUnionType;
 use TypeError;
@@ -351,7 +351,7 @@ class Utils
     {
         $params = [];
 
-        $reflectionClass = ReflectionManager::reflectClass(static::class);
+        $reflectionClass = ReflectionManager::reflectClass($action::class);
 
         if ($constructor = $reflectionClass->getConstructor()) {
             foreach ($constructor->getParameters() as $reflectionParameter) {

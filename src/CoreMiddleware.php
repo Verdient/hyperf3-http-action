@@ -6,6 +6,7 @@ namespace Verdient\Hyperf3\HttpAction;
 
 use Hyperf\Context\Context;
 use Hyperf\Di\Container;
+use Hyperf\HttpMessage\Exception\ForbiddenHttpException;
 use Hyperf\HttpServer\Router\Dispatched;
 use Override;
 use Psr\Http\Message\ServerRequestInterface;
@@ -42,26 +43,11 @@ class CoreMiddleware extends HttpServerCoreMiddleware
 
             Utils::injectValue($actionInstance, is_array($validatedData) ? $validatedData : []);
 
-            $data = is_array($validatedData) ? $validatedData : [];
-
-            $isDataDirty = false;
-
             if ($actionInstance instanceof BeforeActionInterface) {
                 $result = $actionInstance->beforeAction();
 
                 if (!$result->getIsOK()) {
                     return DataBag::failed($result->getMessage());
-                }
-
-                $beforeData = $result->getData();
-
-                if (is_array($beforeData)) {
-                    foreach ($beforeData as $name => $value) {
-                        if (!array_key_exists($name, $data) || $data[$name] !== $value) {
-                            $data[$name] = $value;
-                            $isDataDirty = true;
-                        }
-                    }
                 }
             }
 
@@ -72,8 +58,10 @@ class CoreMiddleware extends HttpServerCoreMiddleware
                 ]);
             }
 
-            if ($isDataDirty) {
-                Utils::injectValue($actionInstance, $data);
+            if ($actionInstance instanceof ApprovalInterface) {
+                if ($actionInstance->approval() !== true) {
+                    throw new ForbiddenHttpException();
+                }
             }
 
             if ($this->container instanceof Container) {
