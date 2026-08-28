@@ -54,7 +54,7 @@ class CoreMiddleware extends HttpServerCoreMiddleware
             if ($async = AsyncCollector::get($actionClass)) {
                 return DataBag::succeed([
                     'identifier' => DiContainer::get(AdapterInterface::class)->push(Utils::toAsyncAction($actionInstance, $async->queue)),
-                    'approval' => $actionInstance instanceof ApprovalInterface
+                    'approval' => $actionInstance instanceof ApprovalInterface && $actionInstance->approval() !== true
                 ]);
             }
 
