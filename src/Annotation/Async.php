@@ -19,7 +19,7 @@ class Async extends AbstractAnnotation
     /**
      * @author Verdient。
      */
-    public function __construct(public readonly string $queue = 'default') {}
+    public function __construct(public readonly ?string $queue = null) {}
 
     /**
      * @author Verdient。

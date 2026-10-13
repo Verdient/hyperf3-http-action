@@ -20,7 +20,7 @@ interface AsyncActionInterface
         string $class,
         ?array $params,
         ?array $properties,
-        ?string $queue = 'default'
+        ?string $queue
     ): static;
 
     /**
@@ -49,5 +49,5 @@ interface AsyncActionInterface
      *
      * @author Verdient。
      */
-    public function queue(): string;
+    public function queue(): ?string;
 }

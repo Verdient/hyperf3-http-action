@@ -343,11 +343,11 @@ class Utils
      * 转换为异步任务
      *
      * @param ActionInterface $action 动作
-     * @param string $queue 队列
+     * @param ?string $queue 队列
      *
      * @author Verdient。
      */
-    public static function toAsyncAction(ActionInterface $action, string $queue): AsyncActionInterface
+    public static function toAsyncAction(ActionInterface $action, ?string $queue): AsyncActionInterface
     {
         $params = [];
 
