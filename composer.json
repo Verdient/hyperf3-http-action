@@ -13,7 +13,7 @@
         "hyperf/stringable": "^3.2",
         "hyperf/support": "^3.2",
         "psr/http-message": "^2.0",
-        "verdient/hyperf3-http-server": "^2.1"
+        "verdient/hyperf3-http-server": "^3.2"
     },
     "autoload": {
         "psr-4": {
