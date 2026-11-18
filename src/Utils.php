@@ -14,6 +14,7 @@ use TypeError;
 use UnitEnum;
 use Verdient\Hyperf3\HttpAction\Async\AsyncActionInterface;
 
+use function Hyperf\Config\config;
 use function Hyperf\Support\make;
 
 /**
@@ -400,7 +401,7 @@ class Utils
             'class' => $action::class,
             'params' => empty($params) ? null : $params,
             'properties' => empty($properties) ? null : $properties,
-            'queue' => $queue
+            'queue' => $queue ?? config('http_action.async.default_queue')
         ]);
     }
 }

@@ -16,6 +16,14 @@ class ConfigProvider
     public function __invoke(): array
     {
         return [
+            'publish' => [
+                [
+                    'id' => 'config',
+                    'description' => 'The config for HTTP action.',
+                    'source' => dirname(__DIR__) . '/publish/http_action.php',
+                    'destination' => constant('BASE_PATH') . '/config/autoload/http_action.php',
+                ]
+            ],
             'dependencies' => [
                 RouterDispatcherFactory::class => DispatcherFactory::class,
                 HttpServerCoreMiddleware::class => CoreMiddleware::class,
